@@ -10,7 +10,7 @@ import time
 options = Options()
 options.add_experimental_option("detach", True)
 
-wb = load_workbook(filename="D:\Automation\Kazwini\datakazwani.xlsx")
+wb = load_workbook(filename="D:\Automation\Mulyani\DataMulyani.xlsx")
 
 sheetRange = wb.active
 
@@ -21,7 +21,7 @@ url2='https://subsiditepatlpg.mypertamina.id/merchant/app/verification-nik'
 driver.maximize_window()
 driver.implicitly_wait(10)
 driver.get(url1)
-driver.find_element(By.ID, "mantine-r0").send_keys("081918104667")
+driver.find_element(By.ID, "mantine-r0").send_keys("081937737799")
 time.sleep(2)
 driver.find_element(By.ID, "mantine-r1").send_keys("123456")
 time.sleep(5)
