@@ -10,7 +10,7 @@ import time
 options = Options()
 options.add_experimental_option("detach", True)
 
-wb = load_workbook(filename="D:\Automation\DataMuhJauharParidi.xlsx")
+wb = load_workbook(filename="D:\Automation\MuhJauharParidi\DataMuhJauharParidi.xlsx")
 
 sheetRange = wb.active
 
@@ -21,7 +21,7 @@ url2='https://subsiditepatlpg.mypertamina.id/merchant/app/verification-nik'
 driver.maximize_window()
 driver.implicitly_wait(10)
 driver.get(url1)
-driver.find_element(By.ID, "mantine-r0").send_keys("081803475364")
+driver.find_element(By.ID, "mantine-r0").send_keys("087777334929")
 time.sleep(2)
 driver.find_element(By.ID, "mantine-r1").send_keys("123456")
 time.sleep(5)
@@ -30,7 +30,7 @@ time.sleep(1)
 driver.find_element(By.CLASS_NAME, "styles_iconClose__ZjGFM").click()
 time.sleep(2)
 
-i=149
+i=2
 n = 0
 
 while i <= len(sheetRange['A']):
@@ -48,9 +48,14 @@ while i <= len(sheetRange['A']):
         
         typetextfirst.send_keys(Nik)        
         driver.find_element(By.CLASS_NAME, "styles_headerForm__t7P4g").click()
-        time.sleep(3)   
+        time.sleep(2)   
         driver.find_element(By.CLASS_NAME, "styles_btnBayar__o4O4A").click()
-        time.sleep(3)
+        time.sleep(2)
+        driver.find_element(By.CLASS_NAME, "styles_btnBayar__blJ1W").click()
+        time.sleep(2)
+        driver.find_element(By.CLASS_NAME, "styles_btnBayar__moyir").click()
+        time.sleep(2)
+    
         driver.get("https://subsiditepatlpg.mypertamina.id/merchant/app/verification-nik")
         print("Data ke "+str(i-1)+" berhasil masuk.")
         n = n+1
