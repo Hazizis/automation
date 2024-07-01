@@ -11,7 +11,7 @@ import time
 options = Options()
 options.add_experimental_option("detach", True)
 
-wb = load_workbook(filename="D:\Automation\Mulyani\DataMulyani.xlsx")
+wb = load_workbook(filename="D:\Automation\Kazwini\datakazwani.xlsx")
 
 sheetRange = wb.active
 
@@ -22,7 +22,7 @@ url2='https://subsiditepatlpg.mypertamina.id/merchant/app/verification-nik'
 driver.maximize_window()
 driver.implicitly_wait(10)
 driver.get(url1)
-driver.find_element(By.ID, "mantine-r0").send_keys("081937737799")
+driver.find_element(By.ID, "mantine-r0").send_keys("081918104667")
 time.sleep(2)
 driver.find_element(By.ID, "mantine-r1").send_keys("123456")
 time.sleep(5)
@@ -53,6 +53,10 @@ while i <= len(sheetRange['A']):
         time.sleep(2)   
         driver.find_element(By.CLASS_NAME, "styles_btnBayar__o4O4A").click()
         time.sleep(2)
+        # wait.until(EC.invisibility_of_element_located(By.XPATH, "//*[@id='mantine-rhd-body']/label[1]/span[1]")).click()
+        time.sleep(1)
+        wait.until(EC.visibility_of_element_located((By.CLASS_NAME, "styles_btnModalStatusTrx__Hd0KY"))).click()
+        time.sleep(1)
         driver.find_element(By.CLASS_NAME, "styles_btnBayar__blJ1W").click()
         time.sleep(2)
         driver.find_element(By.CLASS_NAME, "styles_btnBayar__moyir").click()
@@ -73,3 +77,5 @@ while i <= len(sheetRange['A']):
     time.sleep(2)
     i = i+1
 print ("Selesai Bos")
+
+

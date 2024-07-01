@@ -3,6 +3,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from openpyxl import load_workbook
 import time
@@ -61,9 +62,13 @@ while i <= len(sheetRange['A']):
         n = n+1
         if n % 5 == 0 and n != 1:
             time.sleep(20)
-    except TimeoutException:
-        print ("Data tidak masuk")
-        pass
+        
+        
+    except NoSuchElementException:
+        # WebDriverWait(driver,20).until(EC.presence_of_element_located(By.XPATH, "//*[@id='__next']/div[1]/div/main/div/div/div/div/div/div/div[2]/div[3]/div/span"))
+        print("Data melebihi batas")
+        driver.get("https://subsiditepatlpg.mypertamina.id/merchant/app/verification-nik")
+
     time.sleep(2)
     i = i+1
 print ("Selesai Bos")

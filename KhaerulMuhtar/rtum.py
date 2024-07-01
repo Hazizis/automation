@@ -3,7 +3,6 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import TimeoutException
-from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from openpyxl import load_workbook
 import time
@@ -11,7 +10,7 @@ import time
 options = Options()
 options.add_experimental_option("detach", True)
 
-wb = load_workbook(filename="D:\Automation\Mulyani\DataMulyani.xlsx")
+wb = load_workbook(filename="D:\Automation\KhaerulMuhtar\datakhaerulmuhtar.xlsx")
 
 sheetRange = wb.active
 
@@ -22,7 +21,7 @@ url2='https://subsiditepatlpg.mypertamina.id/merchant/app/verification-nik'
 driver.maximize_window()
 driver.implicitly_wait(10)
 driver.get(url1)
-driver.find_element(By.ID, "mantine-r0").send_keys("081937737799")
+driver.find_element(By.ID, "mantine-r0").send_keys("081803475364")
 time.sleep(2)
 driver.find_element(By.ID, "mantine-r1").send_keys("123456")
 time.sleep(5)
@@ -30,7 +29,6 @@ driver.find_element(By.CLASS_NAME, "styles_btnLogin__wsKTT").click()
 time.sleep(1)
 driver.find_element(By.CLASS_NAME, "styles_iconClose__ZjGFM").click()
 time.sleep(2)
-
 
 i=2
 n = 0
@@ -53,6 +51,26 @@ while i <= len(sheetRange['A']):
         time.sleep(2)   
         driver.find_element(By.CLASS_NAME, "styles_btnBayar__o4O4A").click()
         time.sleep(2)
+        modal = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'mantine-rfc-body')))  
+        # Replace 'modal-id' with the actual ID of the modal)
+        radio_button_value = 'Usaha Mikro'
+        script = f"""
+        var radios = document.getElementsByName('opsi');
+        for (var i = 0; i < radios.length; i++) {{
+            if (radios[i].value === '{radio_button_value}') {{
+                radios[i].checked = true;
+                radios[i].click();
+            }}
+        }}
+        """
+        driver.execute_script(script)
+        time.sleep(1)
+        driver.find_element(By.CLASS_NAME, "styles_btnModalStatusTrx__Hd0KY").click()
+        time.sleep(1) #klik submit
+
+        driver.find_element(By.XPATH, "//*[@id='__next']/div[1]/div/main/div/div/div/div/div/div/form/div[1]/div[2]/button[2]").click()
+        time.sleep(1)
+
         driver.find_element(By.CLASS_NAME, "styles_btnBayar__blJ1W").click()
         time.sleep(2)
         driver.find_element(By.CLASS_NAME, "styles_btnBayar__moyir").click()
@@ -63,13 +81,9 @@ while i <= len(sheetRange['A']):
         n = n+1
         if n % 5 == 0 and n != 1:
             time.sleep(20)
-        
-        
-    except NoSuchElementException:
-        # WebDriverWait(driver,20).until(EC.presence_of_element_located(By.XPATH, "//*[@id='__next']/div[1]/div/main/div/div/div/div/div/div/div[2]/div[3]/div/span"))
-        print("Data melebihi batas")
-        driver.get("https://subsiditepatlpg.mypertamina.id/merchant/app/verification-nik")
-
+    except TimeoutException:
+        print ("Data tidak masuk")
+        pass
     time.sleep(2)
     i = i+1
 print ("Selesai Bos")

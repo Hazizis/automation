@@ -53,6 +53,10 @@ while i <= len(sheetRange['A']):
         time.sleep(2)   
         driver.find_element(By.CLASS_NAME, "styles_btnBayar__o4O4A").click()
         time.sleep(2)
+        # wait.until(EC.invisibility_of_element_located(By.XPATH, "//*[@id='mantine-rhd-body']/label[1]/span[1]")).click()
+        time.sleep(1)
+        wait.until(EC.visibility_of_element_located((By.CLASS_NAME, "styles_btnModalStatusTrx__Hd0KY"))).click()
+        time.sleep(1)
         driver.find_element(By.CLASS_NAME, "styles_btnBayar__blJ1W").click()
         time.sleep(2)
         driver.find_element(By.CLASS_NAME, "styles_btnBayar__moyir").click()
@@ -73,3 +77,5 @@ while i <= len(sheetRange['A']):
     time.sleep(2)
     i = i+1
 print ("Selesai Bos")
+
+
