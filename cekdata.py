@@ -10,7 +10,7 @@ import time
 options = Options()
 options.add_experimental_option("detach", True)
 
-wb = load_workbook(filename="D:\Automation\DataMuhJauharParidi.xlsx")
+wb = load_workbook(filename="D:\Automation\databaru.xlsx")
 
 sheetRange = wb.active
 
@@ -30,7 +30,7 @@ time.sleep(1)
 driver.find_element(By.CLASS_NAME, "styles_iconClose__ZjGFM").click()
 time.sleep(2)
 
-i=149
+i=2
 n = 0
 
 while i <= len(sheetRange['A']):
