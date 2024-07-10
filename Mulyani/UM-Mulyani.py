@@ -19,8 +19,9 @@ def login(driver, url, username, password):
     driver.get(url)
     driver.find_element(By.ID, "mantine-r0").send_keys(username)
     driver.find_element(By.ID, "mantine-r1").send_keys(password)
+    time.sleep(3)
     WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CLASS_NAME, "styles_btnLogin__wsKTT"))).click()
-    time.sleep(1)
+    time.sleep(2)
     driver.find_element(By.CLASS_NAME, "styles_iconClose__ZjGFM").click()
 
 def process_data(driver, Nik, Nama, wait):
@@ -69,13 +70,13 @@ def main():
     driver = initialize_webdriver()
 
     # Load Excel workbook
-    wb = load_workbook(filename="D:\\Automation\\Kazwini\\datakazwani.xlsx")
+    wb = load_workbook(filename="D:\\Automation\\Mulyani\\DataMulyani.xlsx")
     sheetRange = wb.active
 
     # URLs and credentials
     url1 = 'https://subsiditepatlpg.mypertamina.id/merchant/auth/login'
     url2 = 'https://subsiditepatlpg.mypertamina.id/merchant/app/verification-nik'
-    username = "081918104667"
+    username = "081937737799"
     password = "123456"
 
     # Login process

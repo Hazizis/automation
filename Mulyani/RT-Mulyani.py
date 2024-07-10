@@ -12,7 +12,7 @@ options = Options()
 options.add_experimental_option("detach", True)
 
 # Load Excel workbook
-wb = load_workbook(filename="D:\\Automation\\KhaerulMuhtar\\datakhaerulmuhtar.xlsx") 
+wb = load_workbook(filename="D:\\Automation\\Mulyani\\DataMulyani.xlsx")
 sheetRange = wb.active
 
 # Initialize WebDriver
@@ -24,7 +24,7 @@ driver.implicitly_wait(10)
 driver.get(url1)
 
 # Login process
-driver.find_element(By.ID, "mantine-r0").send_keys("081803475364")
+driver.find_element(By.ID, "mantine-r0").send_keys("081937737799")
 driver.find_element(By.ID, "mantine-r1").send_keys("123456")
 time.sleep(5)
 driver.find_element(By.CLASS_NAME, "styles_btnLogin__wsKTT").click()
@@ -39,7 +39,6 @@ def process_data(driver, Nik, Nama, wait, waitfaster):
         typetextfirst = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "input[type='search']")))
         typetextfirst.click()
         typetextfirst.send_keys(Nik)
-        time.sleep(3)
         driver.find_element(By.CLASS_NAME, "styles_headerForm__t7P4g").click()
         time.sleep(2)
         driver.find_element(By.CLASS_NAME, "styles_btnBayar__o4O4A").click()
@@ -83,7 +82,7 @@ while i <= len(sheetRange['A']):
     Nama = sheetRange['B' + str(i)].value
 
     wait = WebDriverWait(driver, 30)
-    waitfaster = WebDriverWait(driver, 20)
+    waitfaster = WebDriverWait(driver, 10)
 
     if process_data(driver, Nik, Nama, wait, waitfaster):
         driver.get(url2)

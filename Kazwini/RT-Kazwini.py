@@ -7,20 +7,24 @@ from selenium.webdriver.common.by import By
 from openpyxl import load_workbook
 import time
 
+# Initialize Chrome options
 options = Options()
 options.add_experimental_option("detach", True)
 
-wb = load_workbook(filename="D:\Automation\Kazwini\datakazwani.xlsx")
+# Load Excel workbook
+wb = load_workbook(filename="D:\\Automation\\Kazwini\\datakazwani.xlsx")
 sheetRange = wb.active
 
+# Initialize WebDriver
 driver = webdriver.Chrome(options=options)
 url1 = 'https://subsiditepatlpg.mypertamina.id/merchant/auth/login'
 url2 = 'https://subsiditepatlpg.mypertamina.id/merchant/app/verification-nik'
 driver.maximize_window()
 driver.implicitly_wait(10)
 driver.get(url1)
+
+# Login process
 driver.find_element(By.ID, "mantine-r0").send_keys("081918104667")
-time.sleep(2)
 driver.find_element(By.ID, "mantine-r1").send_keys("123456")
 time.sleep(5)
 driver.find_element(By.CLASS_NAME, "styles_btnLogin__wsKTT").click()
@@ -28,22 +32,12 @@ time.sleep(1)
 driver.find_element(By.CLASS_NAME, "styles_iconClose__ZjGFM").click()
 time.sleep(2)
 
-i = 2
-n = 0
-
-while i <= len(sheetRange['A']):
-    Nik = sheetRange['C' + str(i)].value
-    Nama = sheetRange['B' + str(i)].value
-
-    print("Data ke " + str(i-1) + ", Nama : " + str(Nama) + ", nik = " + str(Nik))
-
-    wait = WebDriverWait(driver, 30)
-    waitfaster= WebDriverWait(driver, 10)
-    typetextfirst = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "input[type='search']")))
-    time.sleep(1)
-
-    typetextfirst.click()
+def process_data(driver, Nik, Nama, wait, waitfaster):
     try:
+        print(f"Processing data for Nama: {Nama}, NIK: {Nik}")
+
+        typetextfirst = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "input[type='search']")))
+        typetextfirst.click()
         typetextfirst.send_keys(Nik)
         driver.find_element(By.CLASS_NAME, "styles_headerForm__t7P4g").click()
         time.sleep(2)
@@ -72,18 +66,33 @@ while i <= len(sheetRange['A']):
         time.sleep(2)
         driver.find_element(By.CLASS_NAME, "styles_btnBayar__moyir").click()
         time.sleep(2)
-        driver.get(url2)
-        print("Data ke " + str(i-1) + " berhasil masuk.")
 
-        n += 1
-        if n % 5 == 0 and n != 1:
-            time.sleep(20)
+        return True
 
     except NoSuchElementException:
-        print("Data melebihi batas")
+        print(f"Data for Nama: {Nama}, NIK: {Nik} exceeds the limit")
+        return False
+
+# Main loop
+i = 2
+n = 0
+
+while i <= len(sheetRange['A']):
+    Nik = sheetRange['C' + str(i)].value
+    Nama = sheetRange['B' + str(i)].value
+
+    wait = WebDriverWait(driver, 30)
+    waitfaster = WebDriverWait(driver, 10)
+
+    if process_data(driver, Nik, Nama, wait, waitfaster):
+        driver.get(url2)
+        print(f"Data for "+str(i-1)+".Nama: {Nama}, NIK: {Nik} successfully processed.")
+        n += 1
+        if n % 5 == 0:
+            time.sleep(20)
+    else:
         driver.get(url2)
 
-    time.sleep(2)
     i += 1
 
-print("Selesai Bos")
+print("Process completed")
