@@ -40,9 +40,9 @@ def process_data(driver, Nik, Nama, wait, waitfaster):
         typetextfirst.click()
         typetextfirst.send_keys(Nik)
         driver.find_element(By.CLASS_NAME, "styles_headerForm__t7P4g").click()
-        time.sleep(2)
+        time.sleep(5)
         driver.find_element(By.CLASS_NAME, "styles_btnBayar__o4O4A").click()
-        time.sleep(2)
+        time.sleep(3)
 
         # Check if the modal button is present
         modal_buttons = driver.find_elements(By.CLASS_NAME, "styles_btnModalStatusTrx__Hd0KY")
@@ -51,11 +51,11 @@ def process_data(driver, Nik, Nama, wait, waitfaster):
             radio_button_xpath = '//label[contains(@class, "styles_container__vdRpf") and .//span[text()="Rumah Tangga"]]//input'
             radio_button = driver.find_element(By.XPATH, radio_button_xpath)
             driver.execute_script("arguments[0].click();", radio_button)
-            time.sleep(1)
+            time.sleep(2)
             
             # Click the "Lanjut Transaksi" button
             modal_buttons[0].click()
-            time.sleep(2)
+            time.sleep(4)
         else:
             print("Modal button not found, proceeding with next steps")
 
@@ -63,9 +63,9 @@ def process_data(driver, Nik, Nama, wait, waitfaster):
         element_with_price = waitfaster.until(EC.presence_of_element_located((By.XPATH, '//*[@id="__next"]/div[1]/div/main/div/div/div/div/div/div/form/div[1]/div[3]/div/span[2]')))
         print("Element with price found:", element_with_price.text)
         driver.find_element(By.CLASS_NAME, "styles_btnBayar__blJ1W").click()
-        time.sleep(2)
+        time.sleep(3)
         driver.find_element(By.CLASS_NAME, "styles_btnBayar__moyir").click()
-        time.sleep(2)
+        time.sleep(3)
 
         return True
 

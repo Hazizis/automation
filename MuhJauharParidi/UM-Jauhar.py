@@ -52,6 +52,7 @@ def process_data(driver, Nik, Nama, wait):
             print("Modal button not found, proceeding with next steps")
 
         # Click the button with data-testid="actionIcon2"
+        time.sleep(2)
         driver.find_element(By.CSS_SELECTOR, '[data-testid="actionIcon2"]').click()
         time.sleep(2)
         driver.find_element(By.CLASS_NAME, "styles_btnBayar__blJ1W").click()
