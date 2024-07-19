@@ -2,7 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, TimeoutException, StaleElementReferenceException
 from selenium.webdriver.common.by import By
 from openpyxl import load_workbook
 import time
@@ -64,13 +64,27 @@ def process_data(driver, Nik, Nama, wait, waitfaster):
         print("Element with price found:", element_with_price.text)
         driver.find_element(By.CLASS_NAME, "styles_btnBayar__blJ1W").click()
         time.sleep(3)
-        driver.find_element(By.CLASS_NAME, "styles_btnBayar__moyir").click()
-        time.sleep(3)
 
+        # Wait for the final payment button and click it
+        retries = 5
+        while retries > 0:
+            try:
+                print("Waiting for final payment button to be clickable...")
+                btn_final_bayar = wait.until(EC.element_to_be_clickable((By.CLASS_NAME, "styles_btnBayar__moyir")))
+                print("Final payment button found, clicking...")
+                btn_final_bayar.click()
+                break
+            except StaleElementReferenceException as e:
+                print(f"StaleElementReferenceException: {e}, retrying...")
+                retries -= 1
+                if retries == 0:
+                    raise e
+
+        time.sleep(3)
         return True
 
-    except NoSuchElementException:
-        print(f"Data for Nama: {Nama}, NIK: {Nik} exceeds the limit")
+    except (NoSuchElementException, TimeoutException, StaleElementReferenceException) as e:
+        print(f"Data for Nama: {Nama}, NIK: {Nik} encountered an error: {e}")
         return False
 
 # Main loop
@@ -86,7 +100,7 @@ while i <= len(sheetRange['A']):
 
     if process_data(driver, Nik, Nama, wait, waitfaster):
         driver.get(url2)
-        print(f"Data for "+str(i-1)+".Nama: {Nama}, NIK: {Nik} successfully processed.")
+        print(f"Data for {i-1}. Nama: {Nama}, NIK: {Nik} successfully processed.")
         n += 1
         if n % 5 == 0:
             time.sleep(20)
@@ -96,3 +110,4 @@ while i <= len(sheetRange['A']):
     i += 1
 
 print("Process completed")
+

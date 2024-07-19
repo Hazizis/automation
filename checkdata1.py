@@ -13,7 +13,7 @@ options.add_experimental_option("detach", True)
 
 # Load Excel workbook
 try:
-    wb = load_workbook(filename="D:\\Automation\\databaru1.xlsx")
+    wb = load_workbook(filename="D:\\Automation\\databaru.xlsx")
     sheetRange = wb.active
 except PermissionError as e:
     print(f"PermissionError: {e}")
